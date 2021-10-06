@@ -1,0 +1,24 @@
+<div class="container">
+    <div class='row row-cols-1 row-cols-md-2 g-4 justify-content-center"'>
+        <div class="col-offset-10 col-2">
+            <button class='btn btn-primary mt-1' [routerLink]="['/carrito']">Carrito</button>
+            <select name="" id="" [(ngModel)]="selectedOrder" (ngModelChange)="onChangeOrder()">
+                <option value="precioAsc">Ordenar por precio ↑</option>
+                <option value="precioDesc">Ordenar por precio ↓</option>
+            </select>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
+        <div *ngFor='let producto of productos' class='col-lg-4 col-md-6 col-sm-6 col-xs-12 col-auto' >
+                <div class="card img-fluid" style="width: 15rem;">
+                    <img src="../../../assets/idiomas3.jpeg" class="card-img-top" alt="imagenProducto" height="200px" width="200px">
+                    <div class="card-body">
+                        <h5 class="card-title">{{producto.name}}</h5>
+                        <p class="card-text">Precio: ${{producto.price}}</p>
+                    </div>
+                    <a class="btn btn-primary" (click)='navigate(producto._id)'>Ver producto</a>
+                    <a class="btn btn-primary" (click)='addToCart(producto)'>Agregar a carrito</a>
+                </div>
+        </div>
+    </div>    
+</div>

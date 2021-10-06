@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "templatetiendaweb": {
+      "hosting": {
+        "TemplateTiendaWeb": [
+          "templatetiendaweb"
+        ]
+      }
+    }
+  }
+}
