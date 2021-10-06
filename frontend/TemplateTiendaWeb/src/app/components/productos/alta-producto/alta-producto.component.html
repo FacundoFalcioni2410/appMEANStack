@@ -1,0 +1,59 @@
+<div class="container"><!--Container-->
+  
+    <div class="form">
+        <br>
+        <h1 class="mb-3 forest-text text-center"><i class="far fa-calendar-alt"></i></h1> 
+        <form id="signup" [formGroup]="form" (ngSubmit)='addProduct()'>
+            <h1 class="h3 mb-4 font-weight-normal forest-text text-center">Nuevo producto</h1>
+        <div class="form-group">
+            <label for="name">Nombre del producto:</label>
+            <input class="form-control" formControlName='name' type="text" name="name" placeholder="Ingrese nombre del producto" required autofocus>
+            <div class='text-danger' *ngIf="form.get('name')?.touched && form.get('name')?.errors?.required">
+                Ingrese el nombre del producto
+            </div>
+        </div>
+        <label for="image">Image:</label>
+        <div class="input-group">
+            <input type="file" name='image' id="photo">
+        </div>
+        <div class="form-group">
+            <label for="date">Precio:</label>
+            <input class="form-control" formControlName='price' type="text" name="text" placeholder="Ingrese el precio" required>
+            <div class='text-danger' *ngIf="form.get('price')?.touched && form.get('price')?.errors?.required">
+                Ingrese un precio
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="date">Stock:</label>
+            <input class="form-control" formControlName='quantity' type="text" name="text" placeholder="Ingrese el stock inicial" required>
+            <div class='text-danger' *ngIf="form.get('quantity')?.touched && form.get('quantity')?.errors?.required">
+                Ingrese el stock inicial
+            </div>
+        </div>
+        <div class="form-group">
+            <input class="btn btn-lg btn-light btn-block" type='submit' value='Submit' >
+        </div>
+        </form>
+    </div>
+    
+  </div><!--container -->
+
+<!-- 
+  upload() {
+    let inputEl: HTMLInputElement =  this.el.nativeElement.querySelector('#photo');
+    let fileCount: number = inputEl.files.length;
+    let formData = new FormData();
+    if (fileCount > 0) { // a file was selected
+        for (let i = 0; i < fileCount; i++) {
+            formData.append('file', inputEl.files.item(i));
+        }
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+            this.http.post('http://localhost:3000/stretch/1' + token, formData, { headers: headers }).map(res => res.json())
+            .catch(error => Observable.throw(error))
+            .subscribe(
+                data => console.log(data),
+                error => console.log(error)
+        );
+    } -->

@@ -4,6 +4,7 @@ const UserSchema = new Schema({
     email: String,
     password: String,
     profile: String,
+    cartID: String,
 },{
     timestamps: true,
     versionKey: false

@@ -1,3 +1,4 @@
+import { ApiProductService } from './../../../services/api-product.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -10,11 +11,12 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 })
 export class ProductoComponent implements OnInit {
 
+  API = 'http://localhost:4000/';
   products: Observable<any> | undefined;
   producto: any;
   id = 0;
 
-  constructor(public route: ActivatedRoute, private router: Router, private firestore: FirestoreService) {
+  constructor(public route: ActivatedRoute, private router: Router, private apiProduct: ApiProductService) {
   }
 
   ngOnInit(): void {
@@ -22,9 +24,14 @@ export class ProductoComponent implements OnInit {
       this.id = params['id'];
     });
 
-    this.products = this.firestore.getProducto(this.id.toString());
-    this.products.subscribe( (product) =>{
-      this.producto = product;
+    this.products = this.apiProduct.getProduct(this.id.toString());
+    this.getProduct();
+  }
+
+  getProduct(){
+    this.products!.subscribe( (products) =>{
+      this.producto = products;
+      this.producto.imagePath = this.API + this.producto.imagePath;
     });
   }
 

@@ -1,8 +1,9 @@
 export interface Product {
     _id?: string;
     name: string;
-    price: Number;
-    quantity: Number;
+    price: number;
+    quantity: number;
+    imagePath: string;
     createdAt?: string;
-    updatedAt?: string
+    updatedAt?: string;
 }

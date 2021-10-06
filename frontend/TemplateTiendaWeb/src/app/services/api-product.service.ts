@@ -22,4 +22,9 @@ export class ApiProductService {
   {
     return this.http.get<Product[]>(this.URL_API);
   }
+
+  addProduct(product: any)
+  {
+    return  this.http.post(this.URL_API, product);
+  }
 }

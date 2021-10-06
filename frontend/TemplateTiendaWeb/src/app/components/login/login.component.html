@@ -1,13 +1,26 @@
 <div class="container">
     <div id="logbox">
       <form id="signup" [formGroup]="form" (ngSubmit)='signUp()'>
-        <button (click)='signIn = !signIn'></button>
-        <h1>Create an account</h1>
+        <button class='btn btn-danger' (click)='signIn = !signIn'>Cambiar ingreso/registro</button>
+        <h1 *ngIf='!this.signIn'>Create an account</h1>
+        <h1 *ngIf='this.signIn'>Login</h1>
         <input class="input pass"  formControlName='email' Nametype="email" placeholder="Ingrese su email" required/>
-        <input class="input pass"  formControlName='password' Nametype="text" placeholder="Ingrese su contrasena" required/>
-        <input class="input pass"  formControlName='profile' Nametype="password" placeholder="Ingrese su perfil" required/>
+        <div class='text-danger' *ngIf="form.get('email')?.touched && form.get('email')?.errors?.required">
+          Ingrese su email
+        </div>
+        <input class="input pass"  type='password' formControlName='password' Nametype="text" placeholder="Ingrese su contrasena" required/>
+        <div class='text-danger' *ngIf="form.get('password')?.touched && form.get('password')?.errors?.required">
+          Ingrese su contraseña
+        </div>
+        <div class='text-danger' *ngIf="form.get('password')?.touched && form.get('password')?.errors?.minlength">
+          La contraseña debe tener 8 caracteres o mas
+        </div>
+        <input *ngIf='!this.signIn' class="input pass"  formControlName='profile' Nametype="password" placeholder="Ingrese su perfil" required/>
+        <div class='text-danger' *ngIf="form.get('profile')?.touched && form.get('profile')?.errors?.required">
+          Ingrese su perfil
+        </div>
         <input class="inputButton" *ngIf='!signIn' type='submit' value="Sign me up!"/>
-        <input class="inputButton" *ngIf='signIn' type='submit' value="Sign me in!"/>
+        <input class="inputButton" *ngIf='signIn' type='submit'  value="Sign me in!"/>
       </form>
     </div>
   </div>

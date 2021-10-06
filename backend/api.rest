@@ -31,9 +31,10 @@ POST http://localhost:4000/user/signup
 Content-Type: application/json
 
 {
-    "email": "test1@gmail.com",
-    "password": "11111111",
-    "profile": "user"
+    "email": "1232dddfds131df2312@gmail.com",
+    "password": "12334f2ddd3412412",
+    "profile": "user",
+    "cartID" : ""
 }
 
 ###
@@ -49,7 +50,7 @@ Content-Type: application/json
 GET http://localhost:4000/user
 
 ###
-DELETE http://localhost:4000/user/615ce5bce67dc8fac653bedb
+DELETE http://localhost:4000/user/615db83023a0b13406c7770f
 
 
 ###
@@ -57,6 +58,40 @@ POST http://localhost:4000/user/signin
 Content-Type: application/json
 
 {
-    "name": "test@gmail.com",
-    "password": "abcdefgh"
+    "email": "test@test.com",
+    "password": "12345678"
 }
+
+###
+GET http://localhost:4000/cart/
+
+###
+GET http://localhost:4000/cart/615db83023a0b13406c77711
+
+###
+POST http://localhost:4000/cart/
+Content-Type: application/json
+
+{
+    "product": {
+        "_id": "615db83023a0b13406c77711",
+        "name": "keyboard",
+        "price": 150,
+        "quantity": 1,
+        "imagePath": "photos/e2bb7724-4eed-467a-960e-719162e022d3.jpeg",
+        "createdAt": "2021-10-05T12:57:49.888Z",
+        "updatedAt": "2021-10-05T13:53:22.344Z"
+    },
+    "cartID": "615db83023a0b13406c77711"
+}
+
+###
+PUT http://localhost:4000/cart/
+Content-Type: application/json
+
+{
+    "cartID": "615db83023a0b13406c77711"
+}
+
+###
+DELETE http://localhost:4000/cart/615d051226afb000d11eb2b1

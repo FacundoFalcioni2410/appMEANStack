@@ -1,6 +1,9 @@
 const userCtrl = {};
+const cartCtrl = {};
 
 const User = require('../models/user');
+const Cart = require('../models/cart');
+
 const bcryptjs = require('bcryptjs');
 
 userCtrl.getUsers = async (req, res) =>{
@@ -43,7 +46,9 @@ userCtrl.createUser = async (req,res) =>{
     
                 const newUser = new User({email, password, profile});
                 await newUser.save();
-                res.status(200).json({success: true, user: newUser});
+                await cartCtrl.createCart(newUser);
+                const finalUser = await User.findById(newUser._id);
+                res.status(200).json({success: true, user: finalUser});
             }
             else
             {
@@ -60,12 +65,6 @@ userCtrl.createUser = async (req,res) =>{
     
 }
 
-// userCtrl.createUser = async (req,res) =>{
-//     const {name, price, quantity} = req.body
-//     const newUser = new User({name, price, quantity});
-//     await newUser.save();
-//     res.send('created')
-// }
 
 userCtrl.updateUser = async (req, res) =>{
     const r = await User.findByIdAndUpdate(req.params.id, req.body);
@@ -96,6 +95,23 @@ validateEmail = (email) =>{
     {
       return true;
     }
-  }
+}
+
+cartCtrl.createCart = async (user) =>{
+    const newCart = new Cart({userID: user._id, products: []})
+    await newCart.save();
+
+    let newUser = new User({
+        cartID: newCart._id,
+        profile: user.profile,
+        email: user.email,
+        _id: user._id,
+        password: user.password,
+    })
+
+
+
+    await User.findByIdAndUpdate(user._id, newUser);
+}
 
 module.exports = userCtrl;

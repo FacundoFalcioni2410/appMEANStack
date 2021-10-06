@@ -3,12 +3,13 @@
         <button class='btn btn-danger mt-1' (click)='this.emptyCart()'>Vaciar carrito</button>
     </p>
     <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
-        <div *ngFor='let producto of productos' class='col-lg-4 col-md-6 col-sm-6 col-xs-12 col-auto' >
+        <div *ngFor='let producto of this.cart.products' class='col-lg-4 col-md-6 col-sm-6 col-xs-12 col-auto' >
                 <div class="card img-fluid" style="width: 15rem;">
-                    <img src="../../../assets/idiomas3.jpeg" class="card-img-top" alt="imagenProducto" height="200px" width="200px">
+                    <img [src]='producto.imagePath' class="card-img-top" alt="imagenProducto" height="200px" width="200px">
                     <div class="card-body">
-                        <h5 class="card-title">{{producto.itemName}}</h5>
-                        <p class="card-text">Precio: ${{producto.itemPrice}}</p>
+                        <h5 class="card-title">{{producto.name}}</h5>
+                        <p class="card-text">Precio: ${{producto.price}}</p>
+                        <p class="card-text">Cantidad: {{producto.quantity}}</p>
                     </div>
                 </div>
         </div>

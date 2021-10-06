@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   constructor(private auth: AuthService, private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       email: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
       profile: ['', Validators.required]
     })
   }
@@ -26,25 +26,27 @@ export class LoginComponent implements OnInit {
   }
 
   signUp(){
-    let user: User = {
-      email: this.form.get('email')?.value,
-      password: this.form.get('password')?.value,
-      profile: this.form.get('profile')?.value,
-    }
-    if(!this.signIn)
+    if(this.form.get('email')?.value === '' || this.form.get('password')?.value === '' || (this.form.get('profile')?.value === '' && !this.signIn))
     {
-      this.auth.signUp(user)
-      .then( res => console.log(res))
-      .catch( res => console.error(res));
+      console.log('error');
     }
     else
     {
-      delete user.profile;
-
-      this.auth.signIn(user)
-      .then( res => console.log(res))
-      .catch( res => console.error(res));
+      let user: User = {
+        email: this.form.get('email')?.value,
+        password: this.form.get('password')?.value,
+        profile: this.form.get('profile')?.value,
+      }
+      if(!this.signIn)
+      {
+        this.auth.signUp(user);
+      }
+      else
+      {
+        this.auth.signIn(user);
+      }
     }
+    
 
   }
 

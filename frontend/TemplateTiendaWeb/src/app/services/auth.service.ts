@@ -8,15 +8,26 @@ import { User } from '../models/user';
 export class AuthService {
 
   URL_API = "http://localhost:4000/user/"
-  
+  currentUser: any;
+
   constructor(private http: HttpClient) {}
 
-  signUp(user: User): Promise<any>{
-    return this.http.post(this.URL_API + 'signup', user).toPromise();
+  signUp(user: User){
+    this.http.post(this.URL_API + 'signup', user).toPromise().then((res: any) =>{
+      console.log(res);
+    });;
   }
 
-  signIn(user: User): Promise<any>{
-    console.log(user);
-    return this.http.post(this.URL_API + 'signin', user).toPromise();
+  signIn(user: User){
+    this.http.post(this.URL_API + 'signin', user).toPromise().then((res: any) =>{
+      res.user.date = Date.now();
+      this.currentUser = res.user;
+      localStorage.setItem('user', JSON.stringify(res.user));
+    });
+  }
+
+  signOut(){
+    this.currentUser = null;
+    localStorage.removeItem('user');
   }
 }

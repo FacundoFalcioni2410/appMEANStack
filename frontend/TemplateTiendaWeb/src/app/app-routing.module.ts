@@ -15,7 +15,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'carrito',
+    path: 'carrito/:id',
     component: CarritoComponent
   },
   {

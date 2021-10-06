@@ -1,5 +1,7 @@
-import { CarritoService } from './../../services/carrito.service';
+import { ActivatedRoute } from '@angular/router';
+import { CartService } from '../../services/cart.service';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-carrito',
@@ -8,20 +10,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CarritoComponent implements OnInit {
 
+  API = 'http://localhost:4000/';
+  cartObs: Observable<any> | undefined;
+  cart: any;
+  id = 0;
+  
   productos: any = [];
 
-  constructor(private cart: CarritoService) {
+  constructor(private cartS: CartService, private route: ActivatedRoute) {
+    
   }
 
   ngOnInit(): void {
-    const productos = localStorage.getItem('carrito');
-    this.productos = productos !== null ? JSON.parse(productos) : [];
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+    });
+
+    this.cartObs = this.cartS.getCart(this.id.toString());
+    this.getCart();
+  }
+
+  getCart(){
+    this.cartObs?.subscribe( cart =>{
+      this.cart = cart;
+      console.log(this.cart);
+    })
   }
 
   emptyCart(){
-    this.cart.emptyCart();
-    const productos = localStorage.getItem('carrito');
-    this.productos = productos !== null ? JSON.parse(productos) : [];
+    this.cartS.emptyCart(this.cart._id).subscribe( (value: any) =>{
+      this.cart = value;
+    });
   }
 
 }
