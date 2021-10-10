@@ -1,6 +1,9 @@
 const userCtrl = {};
 const cartCtrl = {};
 
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = 'pepe';
+
 const User = require('../models/user');
 const Cart = require('../models/cart');
 
@@ -12,8 +15,6 @@ userCtrl.getUsers = async (req, res) =>{
 }
 
 userCtrl.validateUser = async (req,res) =>{
-    console.log(req.body);
-    try {
         let user = await User.findOne({ email: req.body.email });
         if(!user) {
             return res.status(400).send({ message: "Invalid data" });
@@ -21,16 +22,20 @@ userCtrl.validateUser = async (req,res) =>{
         if(!bcryptjs.compareSync(req.body.password, user.password)) {
             return res.status(400).send({ message: "Invalid data" });
         }
-        res.send({ user: user });
-    } catch (error) {
-        res.status(500).send(error);
-    }
+        try
+        {
+            const jwtUser = jwt.sign(Object.assign({}, user._doc), SECRET_KEY, {expiresIn: '1day'});
+            res.json({ token: jwtUser, user: user });
+        }
+        catch (error) {
+            res.status(500).json(error);
+        }
 }
 
 userCtrl.createUser = async (req,res) =>{
-    const {email, profile} = req.body
+    const {email, address, phoneNumber, dni } = req.body
 
-    let user = await User.findOne({ email: req.body.email });
+    let user = await User.findOne({ email: email });
     if(user)
     {
         res.status(500).json({success: false, error: "The user already exists"});
@@ -44,7 +49,7 @@ userCtrl.createUser = async (req,res) =>{
             {
                 let password = await bcryptjs.hash(passwordB, 8)
     
-                const newUser = new User({email, password, profile});
+                const newUser = new User({email, password, address, phoneNumber, dni});
                 await newUser.save();
                 await cartCtrl.createCart(newUser);
                 const finalUser = await User.findById(newUser._id);
@@ -61,8 +66,15 @@ userCtrl.createUser = async (req,res) =>{
         }
 
     }
-    
-    
+}
+
+userCtrl.verifyToken = async (req,res) =>{
+    jwt.verify(req.headers.token, SECRET_KEY, function(err, decoded) {
+        if (err) {
+          return res.status(403).json({success: false, error: err});
+        }
+        res.status(200).json({success: true, user: decoded});
+      });
 }
 
 

@@ -14,6 +14,7 @@ export class CarritoComponent implements OnInit {
   cartObs: Observable<any> | undefined;
   cart: any;
   id = 0;
+  totalPrice: number = 0;
   
   productos: any = [];
 
@@ -33,14 +34,23 @@ export class CarritoComponent implements OnInit {
   getCart(){
     this.cartObs?.subscribe( cart =>{
       this.cart = cart;
-      console.log(this.cart);
-    })
+      this.getTotalPrice();
+    });
   }
 
   emptyCart(){
     this.cartS.emptyCart(this.cart._id).subscribe( (value: any) =>{
       this.cart = value;
     });
+    this.totalPrice = 0;
+  }
+
+  getTotalPrice(){
+    for(let product of this.cart?.products)
+    {
+      let productTotal = product.price * product.quantity;
+      this.totalPrice += productTotal;
+    }
   }
 
 }

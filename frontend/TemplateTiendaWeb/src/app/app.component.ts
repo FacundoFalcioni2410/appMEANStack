@@ -8,27 +8,25 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  currentUser: any | null;
+  currentToken: any | null;
+  resToken: any = null;
 
   constructor(private auth: AuthService){
-    console.log('test');
-    
-      let user = localStorage.getItem('user');
-      this.currentUser = user !== null ? JSON.parse(user) : null;
-      if(this.currentUser)
-      {
-        console.log(this.currentUser);
-        let date = Date.now();
-        let resultado = date - this.currentUser.date;
-        console.log(resultado);
-        if(resultado > 86400000)
+    let token = localStorage.getItem('token');
+    this.currentToken = token !== null ? JSON.parse(token) : null;
+    if(this.currentToken)
+    {
+      this.auth.verifyToken(this.currentToken).then( res =>{
+        this.resToken = res;
+        if(this.resToken.success)
         {
-          this.auth.currentUser = null;
+          this.auth.currentUser = this.resToken.user;
+          console.log(this.auth.currentUser);
         }
-        else
-        {
-          this.auth.currentUser = this.currentUser;
-        }
-      }
+      }).catch( err =>{
+        this.auth.currentUser = null;
+        localStorage.removeItem('token');
+      });
+    }
   }
 }

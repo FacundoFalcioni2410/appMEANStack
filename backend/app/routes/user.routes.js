@@ -6,6 +6,7 @@ const UserCtrl = require('../controller/user');
 
 
 router.get('/',UserCtrl.getUsers);
+router.get('/token',UserCtrl.verifyToken);
 router.post('/signup',UserCtrl.createUser);
 router.post('/signin',UserCtrl.validateUser);
 router.put('/:id',UserCtrl.updateUser);

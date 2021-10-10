@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { environment } from './../environments/environment.prod';
-import { ProductosModule } from './components/productos/productos.module';
+import { ProductosModule } from './components/productosModule/productos.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -13,14 +13,16 @@ import { HomeComponent } from './components/home/home.component';
 import { CarritoComponent } from './components/carrito/carrito.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { RegisterComponent } from './components/register/register.component';
+  
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     HomeComponent,
     CarritoComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     ReactiveFormsModule,

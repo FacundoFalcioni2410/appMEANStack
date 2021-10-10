@@ -1,9 +1,10 @@
-import { Product } from './../../models/product';
-import { ApiProductService } from './../../services/api-product.service';
+import { Product } from '../../models/product';
+import { ApiProductService } from '../../services/api-product.service';
 import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-productos',
@@ -16,16 +17,13 @@ export class ProductosComponent implements OnInit {
   products: Observable<Product[]>;
   productos: any = [];
   selectedOrder: any;
-  currentUser: any;
 
-  constructor(private router: Router, private cartS: CartService, private apiProduct: ApiProductService) {
+  constructor(public auth: AuthService, private router: Router, private cartS: CartService, private apiProduct: ApiProductService) {
     this.products = this.apiProduct.getProducts();
   }
 
   ngOnInit(): void {
     this.getProducts();
-    let user = localStorage.getItem('user');
-    this.currentUser =  user !== null ? JSON.parse(user) : null;
   }
 
   getProducts(){
@@ -42,9 +40,14 @@ export class ProductosComponent implements OnInit {
 
   addToCart(product: any, ){
     product.quantity = 1;
-    this.cartS.addProduct(product, this.currentUser.cartID).subscribe((res) =>{
+    this.cartS.addProduct(product, this.auth.currentUser.cartID).subscribe((res) =>{
       console.log(res);
     });
+  }
+
+  modifyProduct(product: Product){
+    this.apiProduct.modifyProduct = product;
+    this.router.navigate(['productos/modificar'])
   }
 
   navigateProduct(itemID: string){
@@ -52,7 +55,7 @@ export class ProductosComponent implements OnInit {
   }
 
   navigateCart(){
-    this.router.navigate(['/carrito', this.currentUser.cartID]);
+    this.router.navigate(['/carrito', this.auth.currentUser.cartID]);
   }
 
   sortByPriceAsc(){

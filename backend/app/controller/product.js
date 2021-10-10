@@ -2,6 +2,7 @@ const productCtrl = {};
 
 const path = require('path');
 const fs = require('fs-extra');
+const mongoose = require('mongoose');
 const Product = require('../models/product');
 
 productCtrl.getProducts = async (req, res) =>{
@@ -10,16 +11,28 @@ productCtrl.getProducts = async (req, res) =>{
 }
 
 productCtrl.getProduct = async (req, res) =>{
-    const employee = await Product.findById(req.params.id);
-    res.json(employee);
+    if(!mongoose.Types.ObjectId.isValid(req.params.id))
+    {
+        return res.status(404).json({success:false, error: 'Not valid id'})
+    }
+    else
+    {
+        const product = await Product.findById(req.params.id);
+        if(!product)
+        {
+            return res.status(404).json({success:false, error: 'Not product found'});
+        }
+        return res.json({success:true, product: product});
+    }
+
 }
 
 productCtrl.createProduct = async (req,res) =>{
     console.log(req.body);
-    const {name, price, quantity} = req.body;
+    const {name, price, stock, description, category} = req.body;
     let imagePath = req.file.filename;
-    imagePath = 'photos/' + imagePath
-    const newProduct = new Product({name, price, quantity, imagePath});
+    imagePath = 'photos/' + imagePath;
+    const newProduct = new Product({name, price, stock, imagePath, description, category});
     console.log(imagePath);
     await newProduct.save();
     res.json({success: true, product: newProduct});
@@ -45,11 +58,12 @@ productCtrl.updateProduct = async (req, res) =>{
 }
 
 productCtrl.deleteProduct = async (req,res) =>{
-    const producDeleted = await Product.findByIdAndDelete(req.params.id);
-    if(producDeleted)
+    // const productDeleted = await Product.deleteMany({});
+    const productDeleted = await Product.findByIdAndDelete(req.params.id);
+    if(productDeleted)
     {
-        fs.unlink(path.resolve(producDeleted.imagePath));
-        res.json({success: true, product: producDeleted});
+        // fs.unlink(path.resolve(productDeleted.imagePath));
+        res.json({success: true, product: productDeleted});
     }
     else
     {

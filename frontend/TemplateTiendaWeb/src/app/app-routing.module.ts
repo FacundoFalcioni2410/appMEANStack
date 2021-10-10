@@ -1,3 +1,4 @@
+import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { NgModule } from '@angular/core';
@@ -23,8 +24,12 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'register',
+    component: RegisterComponent
+  },
+  {
     path: 'productos',
-    loadChildren: () => import('./components/productos/productos.module').then(m => m.ProductosModule)
+    loadChildren: () => import('./components/productosModule/productos.module').then(m => m.ProductosModule)
   }
 ];
 

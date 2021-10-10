@@ -11,13 +11,15 @@
     <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
         <div *ngFor='let producto of productos' class='col-lg-4 col-md-6 col-sm-6 col-xs-12 col-auto' >
                 <div class="card img-fluid" style="width: 15rem;">
-                    <img src={{producto.imagePath}} class="card-img-top" alt="imagenProducto" height="200px" width="200px">
+                    <img src={{producto?.imagePath}} class="card-img-top" alt="imagenProducto" height="200px" width="200px">
                     <div class="card-body">
-                        <h5 class="card-title">{{producto.name}}</h5>
-                        <p class="card-text">Precio: ${{producto.price}}</p>
+                        <h3 class="card-title">{{producto?.name}}</h3>
+                        <h5>{{producto?.description}}</h5>
+                        <p class="card-text">Precio: ${{producto?.price}}</p>
                     </div>
-                    <a class="btn btn-primary" (click)='navigateProduct(producto._id)'>Ver producto</a>
-                    <a class="btn btn-primary" (click)='addToCart(producto)'>Agregar a carrito</a>
+                    <a class="btn btn-info mt-1" (click)='navigateProduct(producto._id)'>Ver producto</a>
+                    <a class="btn btn-dark mt-1" (click)='addToCart(producto)'>Agregar a carrito</a>
+                    <a class="btn btn-warning mt-1" *ngIf='this.auth?.currentUser?.profile === "admin"' (click)='modifyProduct(producto)'>Modificar producto</a>
                 </div>
         </div>
     </div>    

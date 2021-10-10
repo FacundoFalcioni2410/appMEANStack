@@ -10,10 +10,12 @@ app.set('port', process.env.PORT || 4000);
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.urlencoded({extended:false}));
 app.use('/photos', express.static(path.resolve('photos')));
 
 app.use('/product',require('./routes/product.routes'));
 app.use('/user',require('./routes/user.routes'));
 app.use('/cart',require('./routes/cart.routes'));
+// app.use('/payment',require('./routes/payment.routes'));
 
 module.exports = app;

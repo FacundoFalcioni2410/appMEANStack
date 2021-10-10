@@ -1,0 +1,56 @@
+<div class="container">
+    <form [formGroup]='form' (ngSubmit)='addProduct()'>
+        <div class="containerForm">
+          <h1>Agregar producto</h1>
+          <p>Complete los siguientes datos para agregar un producto</p>
+  
+          <label for="name"><b>Nombre del producto: </b></label>
+          <input type="text" placeholder="Ingrese el nombre del producto aqui" formControlName='name' name="name" required>
+        
+          <div class='text-danger p-1 m-0' *ngIf="form.get('email')?.touched && form.get('email')?.errors?.required">
+              Ingrese el nombre del producto
+          </div>
+  
+          <label for="price"><b>Precio del producto: </b></label>
+          <input type="number" placeholder="Ingrese el nombre del producto" formControlName='price' name="price" required>
+            
+          <div class='text-danger p-1' *ngIf="form.get('price')?.touched && form.get('price')?.errors?.required">
+            Ingrese el precio del producto
+          </div>
+          
+          <label for="stock"><b>Stock del producto: </b></label>
+          <input type="number" placeholder="Ingrese la cantidad de stock del producto" formControlName='stock' name="stock" required>
+            
+          <div class='text-danger p-1' *ngIf="form.get('stock')?.touched && form.get('stock')?.errors?.required">
+            Ingrese el stock del producto
+          </div>
+
+          <label for="description"><b>Descripción del producto: </b></label>
+          <textarea type="text" rows="4" cols="3" placeholder="Ingrese la descripción del producto" formControlName='description' name="description" required></textarea>
+            
+          <div class='text-danger p-1' *ngIf="form.get('description')?.touched && form.get('description')?.errors?.required">
+            Ingrese la descripcion del producto
+          </div>
+
+          <label for="category">Ingrese la categoria del producto: </label>
+          <select name="category" formControlName='category' required>
+              <option value="electronica">Electronica</option>
+              <option value="ropa">Ropa</option>
+          </select>
+
+          <div class='text-danger p-1' *ngIf="form.get('category')?.touched && form.get('category')?.errors?.required">
+            Ingrese la categoria del producto
+          </div>
+
+          <label for="image">Imagen del producto:</label>
+          <div class="input-group">
+              <input type="file" name='image' id="photo">
+          </div>
+
+          <div class="clearfix">
+      
+            <button type="submit" [disabled]='form.invalid' class="btn">Sign in</button>
+          </div>
+        </div>
+    </form>
+</div>

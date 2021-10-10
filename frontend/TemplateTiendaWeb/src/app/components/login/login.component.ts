@@ -1,6 +1,6 @@
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
 
 @Component({
@@ -12,42 +12,37 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup;
 
-  signIn: any = false;
 
   constructor(private auth: AuthService, private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
-      email: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      profile: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8), this.validadorDeEspacios]],
+      profile: ['empleado', Validators.required]
     })
   }
 
   ngOnInit(): void {
   }
 
-  signUp(){
-    if(this.form.get('email')?.value === '' || this.form.get('password')?.value === '' || (this.form.get('profile')?.value === '' && !this.signIn))
-    {
-      console.log('error');
-    }
-    else
-    {
-      let user: User = {
-        email: this.form.get('email')?.value,
-        password: this.form.get('password')?.value,
-        profile: this.form.get('profile')?.value,
-      }
-      if(!this.signIn)
-      {
-        this.auth.signUp(user);
-      }
-      else
-      {
-        this.auth.signIn(user);
-      }
-    }
-    
+  signIn(){
 
+    let user: any = {
+      email: this.form.get('email')?.value,
+      password: this.form.get('password')?.value,
+    }
+      this.auth.signIn(user);
   }
 
+  private validadorDeEspacios(control : AbstractControl) : null | object {
+
+    let nombre : string = control.value;
+
+    let espacios = nombre.includes(' ');
+
+    if(espacios){
+      return {validadorDeEspacios : true};
+    }else{
+      return null;
+    }
+  }
 }

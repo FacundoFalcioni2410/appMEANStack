@@ -17,7 +17,9 @@ export class AltaProductoComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       price: ['', Validators.required],
-      quantity: ['', Validators.required],
+      stock: ['', Validators.required],
+      description: ['', Validators.required],
+      category: ['', Validators.required],
     })
   }
 
@@ -26,21 +28,16 @@ export class AltaProductoComponent implements OnInit {
 
 
   addProduct(){
-    if(this.form.get('name')?.value === '' || this.form.get('price')?.value === '' || this.form.get('quantity')?.value === '')
-    {
-      console.log('error');
-    }
-    else
-    {
-      let formData: FormData = this.upload();
+  let formData: FormData = this.upload();
       console.log(this.form.value);
       formData.append('name', this.form.get('name')?.value);
       formData.append('price', this.form.get('price')?.value);
-      formData.append('quantity', this.form.get('quantity')?.value);
+      formData.append('stock', this.form.get('stock')?.value);
+      formData.append('description', this.form.get('description')?.value);
+      formData.append('category', this.form.get('category')?.value);
       this.apiProduct.addProduct(formData).subscribe( (res: any) =>{
         console.log(res);
       });
-    }
   }
 
   upload() {

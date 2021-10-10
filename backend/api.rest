@@ -11,11 +11,14 @@ Content-Type: application/json
 {
     "name": "usb",
     "price": 15,
-    "quantity": 100
+    "stock": 100,
+    "description": "aaaa",
+    "category": "Electronica",
+    "imagePath": "..." 
 }
 
 ###
-DELETE http://localhost:4000/product/615c4c72e2b0c2464a4040c2
+DELETE http://localhost:4000/product/616373ab0063a72290997fc4
 
 ###
 PUT http://localhost:4000/product/615c60f6a55b741f41ec60f1
@@ -31,23 +34,25 @@ POST http://localhost:4000/user/signup
 Content-Type: application/json
 
 {
-    "email": "1232dddfds131df2312@gmail.com",
-    "password": "12334f2ddd3412412",
-    "profile": "user",
-    "cartID" : ""
+    "email": "test@gmail.com",
+    "password": "12345678",
+    "profile": "user"
 }
 
 ###
-GET http://localhost:4000/user/signin
+POST http://localhost:4000/user/signin
 Content-Type: application/json
 
 {
-    "name": "Facundo Falcioni",
-    "password": "123456-109714"
+    "email": "test@gmail.com",
+    "password": "12345678"
 }
 
 ###
 GET http://localhost:4000/user
+
+###
+GET http://localhost:4000/user/token
 
 ###
 DELETE http://localhost:4000/user/615db83023a0b13406c7770f
@@ -95,3 +100,6 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:4000/cart/615d051226afb000d11eb2b1
+
+###
+POST http://localhost:4000/payment

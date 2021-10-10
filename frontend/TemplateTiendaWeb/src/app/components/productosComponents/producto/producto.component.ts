@@ -12,7 +12,7 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 export class ProductoComponent implements OnInit {
 
   API = 'http://localhost:4000/';
-  products: Observable<any> | undefined;
+  products: any;
   producto: any;
   id = 0;
 
@@ -29,10 +29,18 @@ export class ProductoComponent implements OnInit {
   }
 
   getProduct(){
-    this.products!.subscribe( (products) =>{
-      this.producto = products;
-      this.producto.imagePath = this.API + this.producto.imagePath;
-    });
+      try {
+        this.products!.then( (res: any) =>{
+          this.producto = res.product;
+          this.producto.imagePath = this.API + this.producto.imagePath;
+        }).catch((err: any) => {
+          console.dir(err.error);
+          if(!err.error.success)
+            this.router.navigate(['/error']);
+      })
+      } catch (error) {
+        console.log(error);
+      }
   }
 
   navigate(itemID: string){

@@ -5,6 +5,13 @@ const UserSchema = new Schema({
     password: String,
     profile: String,
     cartID: String,
+    phoneNumber: String,
+    address: {
+        postalCode: String,
+        address: String,
+        city: String,
+    },
+    dni: Number,
 },{
     timestamps: true,
     versionKey: false
