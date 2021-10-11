@@ -27,12 +27,20 @@ export class ProductosComponent implements OnInit {
   }
 
   getProducts(){
-    this.products.subscribe( (products) =>{
-      this.productos = products;
-      for(let item of this.productos)
+    this.products.subscribe( (products: any) =>{
+      let images = [];
+      for(let item of products)
       {
-        item.imagePath = this.API + item.imagePath;
+        for(let image of item.images)
+        {
+          image = this.API + image;
+          images.push(image);
+        }
+        item.images = images;
       }
+
+      this.productos = products;
+
       this.sortByID();
       console.log(this.productos);
     });

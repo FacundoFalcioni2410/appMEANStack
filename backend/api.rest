@@ -18,7 +18,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:4000/product/616373ab0063a72290997fc4
+DELETE http://localhost:4000/product/6163b82f9ac99cc56a1c823b
 
 ###
 PUT http://localhost:4000/product/615c60f6a55b741f41ec60f1

@@ -31,8 +31,14 @@ export class ProductoComponent implements OnInit {
   getProduct(){
       try {
         this.products!.then( (res: any) =>{
+          let images = [];
+          for(let image of res.product.images)
+          {
+            image = this.API + image;
+            images.push(image);
+          }
+          res.product.images = images;
           this.producto = res.product;
-          this.producto.imagePath = this.API + this.producto.imagePath;
         }).catch((err: any) => {
           console.dir(err.error);
           if(!err.error.success)

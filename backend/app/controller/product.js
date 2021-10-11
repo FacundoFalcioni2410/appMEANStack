@@ -30,10 +30,16 @@ productCtrl.getProduct = async (req, res) =>{
 productCtrl.createProduct = async (req,res) =>{
     console.log(req.body);
     const {name, price, stock, description, category} = req.body;
-    let imagePath = req.file.filename;
-    imagePath = 'photos/' + imagePath;
-    const newProduct = new Product({name, price, stock, imagePath, description, category});
-    console.log(imagePath);
+    // console.log(req.files);
+    let imagesArr = req.files;
+    let images = [];
+    for(let item of imagesArr)
+    {
+        item.filename = 'photos/' + item.filename;
+        images.push(item.filename);
+    }
+    console.log(images);
+    const newProduct = new Product({name, price, stock, images, description, category});
     await newProduct.save();
     res.json({success: true, product: newProduct});
 }

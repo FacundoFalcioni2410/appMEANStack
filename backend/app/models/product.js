@@ -4,7 +4,7 @@ const ProductSchema = new Schema({
     name: String,
     price: Number,
     stock: Number,
-    imagePath: String,
+    images: [],
     description: String,
     category: String
 },{

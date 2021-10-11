@@ -11,7 +11,27 @@
     <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
         <div *ngFor='let producto of productos' class='col-lg-4 col-md-6 col-sm-6 col-xs-12 col-auto' >
                 <div class="card img-fluid" style="width: 15rem;">
-                    <img src={{producto?.imagePath}} class="card-img-top" alt="imagenProducto" height="200px" width="200px">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                          <button type="button" style='background-color: black !important;' data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                          <button type="button" style='background-color: black !important;' data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                          <button type="button" style='background-color: black !important;' data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item" *ngFor='let image of producto?.images; first as isFirst;' [ngClass]="{'active': isFirst}">
+                                <img [src]="image" alt="" class="d-block m-auto" height="200px" width="200px">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                          <span class="fas fa-chevron-left" style='color:black;' aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                          <span class="fas fa-chevron-right" style='color:black;' aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
                     <div class="card-body">
                         <h3 class="card-title">{{producto?.name}}</h3>
                         <h5>{{producto?.description}}</h5>
