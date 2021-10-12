@@ -6,7 +6,7 @@ const ProductSchema = new Schema({
     stock: Number,
     images: [],
     description: String,
-    category: String
+    category: String,
 },{
     timestamps: true,
     versionKey: false

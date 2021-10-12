@@ -45,13 +45,10 @@ export class AltaProductoComponent implements OnInit {
     let fileCount: number = inputEl.files!.length;
     let formData = new FormData();
     if (fileCount > 0) {
-      // formData.append('image', inputEl.files![0]);
       for(let i=0; i < inputEl.files!.length; i++)
       {
         formData.append('image', inputEl.files![i]);
       }
-      // console.log(formData);
-      // console.log(inputEl.files![0]);
     }
 
     return formData;

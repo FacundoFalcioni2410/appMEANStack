@@ -9,7 +9,7 @@ const productCtrl = require('../controller/product');
 router.get('/', productCtrl.getProducts);
 router.post('/', multer.array('image', 5), productCtrl.createProduct);
 router.get('/:id', productCtrl.getProduct);
-router.put('/:id', productCtrl.updateProduct);
+router.put('/:id', multer.array('image', 5), productCtrl.updateProduct);
 router.delete('/:id', productCtrl.deleteProduct);
 
-module.exports = router
+module.exports = router;

@@ -34,8 +34,8 @@
 
           <label for="category">Ingrese la categoria del producto: </label>
           <select name="category" formControlName='category' required>
-              <option value="electronica">Electronica</option>
-              <option value="ropa">Ropa</option>
+              <option value="Electronica">Electronica</option>
+              <option value="Ropa">Ropa</option>
           </select>
 
           <div class='text-danger p-1' *ngIf="form.get('category')?.touched && form.get('category')?.errors?.required">
@@ -49,7 +49,7 @@
 
           <div class="clearfix">
       
-            <button type="submit" [disabled]='form.invalid' class="btn">Sign in</button>
+            <button type="submit" [disabled]='form.invalid' class="btn">Agregar producto</button>
           </div>
         </div>
     </form>

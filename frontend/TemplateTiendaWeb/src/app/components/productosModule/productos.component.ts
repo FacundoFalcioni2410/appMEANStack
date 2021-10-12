@@ -28,17 +28,6 @@ export class ProductosComponent implements OnInit {
 
   getProducts(){
     this.products.subscribe( (products: any) =>{
-      let images = [];
-      for(let item of products)
-      {
-        for(let image of item.images)
-        {
-          image = this.API + image;
-          images.push(image);
-        }
-        item.images = images;
-      }
-
       this.productos = products;
 
       this.sortByID();
@@ -94,5 +83,15 @@ export class ProductosComponent implements OnInit {
     {
       this.sortByPriceDesc();
     }
+  }
+
+  deleteProduct(product: any){
+    this.apiProduct.deleteProduct(product._id.toString())
+    .then( res =>{
+      this.getProducts();
+    })
+    .catch( res =>{
+      console.log(res);
+    })
   }
 }

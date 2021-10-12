@@ -24,13 +24,12 @@ productCtrl.getProduct = async (req, res) =>{
         }
         return res.json({success:true, product: product});
     }
-
 }
 
 productCtrl.createProduct = async (req,res) =>{
     console.log(req.body);
     const {name, price, stock, description, category} = req.body;
-    // console.log(req.files);
+
     let imagesArr = req.files;
     let images = [];
     for(let item of imagesArr)
@@ -44,14 +43,59 @@ productCtrl.createProduct = async (req,res) =>{
     res.json({success: true, product: newProduct});
 }
 
-// productCtrl.createProduct = async (req,res) =>{
-//     const {name, price, quantity} = req.body
-//     const newProduct = new Product({name, price, quantity});
-//     await newProduct.save();
-//     res.send('created')
-// }
-
 productCtrl.updateProduct = async (req, res) =>{
+    const { deletedImages } = req.body;
+    console.log(req.body)
+    console.log(deletedImages);
+    
+    const product = await Product.findById(req.params.id);
+    console.log(product);
+
+    if(deletedImages)
+    {
+        if(Array.isArray(deletedImages))
+        {
+            for(let item of deletedImages)
+            {
+                try
+                {
+                    fs.unlink(path.resolve(item));
+                    let index = product.images.indexOf(item);
+                    product.images.splice(index, 1);
+                }
+                catch(err)
+                {
+                    console.log(err);
+                }
+            }
+        }
+        else
+        {
+            try
+            {
+                fs.unlink(path.resolve(deletedImages));
+                let index = product.images.indexOf(deletedImages);
+                product.images.splice(index, 1);
+            }
+            catch(err)
+            {
+                console.log(err);
+            }
+        }
+    }
+
+    let imagesArr = req.files;
+    if(imagesArr)
+    {
+        for(let item of imagesArr)
+        {
+            item.filename = 'photos/' + item.filename;
+            product.images.push(item.filename);
+        }
+        console.log(product.images);
+        req.body.images = product.images;
+    }
+    
     const updated = await Product.findByIdAndUpdate(req.params.id, req.body);
     if(updated)
     {
@@ -68,7 +112,10 @@ productCtrl.deleteProduct = async (req,res) =>{
     const productDeleted = await Product.findByIdAndDelete(req.params.id);
     if(productDeleted)
     {
-        // fs.unlink(path.resolve(productDeleted.imagePath));
+        for(let image of productDeleted.images)
+        {
+            fs.unlink(path.resolve(image));
+        }
         res.json({success: true, product: productDeleted});
     }
     else

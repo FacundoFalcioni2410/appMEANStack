@@ -28,4 +28,14 @@ export class ApiProductService {
   {
     return  this.http.post(this.URL_API, product);
   }
+
+  updateProduct(product: any, id: string)
+  {
+    return this.http.put(this.URL_API + id, product).toPromise();
+  }
+
+  deleteProduct(id: string)
+  {
+    return this.http.delete(this.URL_API + id).toPromise();
+  }
 }
